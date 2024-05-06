@@ -1,0 +1,9 @@
+{
+  "tilejson": "2.1.0",
+  "type": "",
+  "tiles": [
+    "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
+  ],
+  "minzoom": 0,
+  "maxzoom": 12
+}

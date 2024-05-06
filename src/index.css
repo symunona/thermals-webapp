@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.mapboxgl-control-container{
+    bottom: 0px; position: fixed; background: white; padding: 3px;
+}
+.mapboxgl-control-container button{ display: inline-block; }

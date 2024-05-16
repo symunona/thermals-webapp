@@ -1,0 +1,9 @@
+{
+  "tilejson": "2.1.0",
+  "type": "",
+  "tiles": [
+    "https://localhost:7777/{z}/{x}/{y}.png"
+  ],
+  "minzoom": 6,
+  "maxzoom": 12
+}

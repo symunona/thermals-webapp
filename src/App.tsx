@@ -1,8 +1,8 @@
 import mapboxgl from 'mapbox-gl';
 import { onMount, type Component } from 'solid-js';
-const otm = await (await fetch('./src/otm.json')).json()
+const openTopoMapConfig = await (await fetch('./src/otm.json')).json()
 
-console.log(otm)
+console.log(openTopoMapConfig)
 
 const accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 mapboxgl.accessToken = accessToken;
@@ -72,6 +72,29 @@ export const App: Component = () => {
         "maxzoom": 12
       });
     });
+
+    // Add new custom geoJSON tile server
+    mapInstance.on('load', () => {
+      mapInstance.addSource('otm', {
+        type: 'geojson',
+        data: openTopoMapConfig
+      });
+      mapInstance.addLayer({
+        'id': 'otm',
+        'type': 'fill',
+        'source': 'otm',
+        'layout': {},
+        'paint': {
+          'fill-color': '#088',
+          'fill-opacity': 0.8
+        }
+      });
+      // Capture tile data for debug
+      mapInstance.on('sourcedata', (e) => {
+        console.log('yeah', e)
+      });
+    });
+
 
     mapInstance.on('moveend', () => {
       // Lol, these are swapped!

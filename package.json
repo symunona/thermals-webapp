@@ -19,10 +19,11 @@
     "vite-plugin-solid": "^2.8.2"
   },
   "dependencies": {
-    "@types/mapbox-gl": "^3.1.0",
-    "mapbox": "1.0.0-beta10",
-    "mapbox-gl": "^3.3.0",
+    "@types/itowns": "^2.42.2",
+    "@types/three": "^0.164.0",
+    "buffer": "^6.0.3",
+    "itowns": "^2.43.1",
     "solid-js": "^1.8.11",
-    "solid-map-gl": "^1.11.2"
+    "three": "^0.159.0"
   }
 }

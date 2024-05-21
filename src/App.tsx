@@ -1,115 +1,94 @@
-import mapboxgl from 'mapbox-gl';
-import { onMount, type Component } from 'solid-js';
-const openTopoMapConfig = await (await fetch('./src/otm.json')).json()
+import * as itowns from 'itowns';
+// import * as debug from 'itowns/lib/Debug';
+// import * as THREE from 'three';
+import { Component, onMount } from 'solid-js';
 
-console.log(openTopoMapConfig)
+// import frGeoData from './sources/fr-data-server.json';
+// Import json config
 
-const accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
-mapboxgl.accessToken = accessToken;
+// This gives only the French elevation map.
+import elevationSource from '../node_modules/itowns/examples/layers/JSONLayers/IGN_MNT_HIGHRES.json';
+import satelliteSource from '../node_modules/itowns/examples/layers/JSONLayers/Ortho.json';
+import thermalCloudSource from './sources/thermal-cloud.json';
+import * as debug from '../node_modules/itowns/dist/debug';
+
+
+import * as GuiTools from '../node_modules/itowns/examples/js/GUI/GuiTools';
+
+// const openTopoMapConfig = await (await fetch('./src/open-topo-map.json')).json()
+// const thermalCloudConfig = await (await fetch('./src/thermal-cloud.json')).json()
+
+// console.log(openTopoMapConfig)
+
+// const accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
+// mapboxgl.accessToken = accessToken;
 
 export const App: Component = () => {
 
-  let mapRef: HTMLDivElement | null;
+  let viewerDiv: HTMLDivElement | null;
   onMount(() => {
-    let savedPosition = JSON.parse(localStorage.getItem('mapPosition'));
-    if (!savedPosition) {
-      savedPosition = {
-        lat: 6.223897393888677,
-        lng: 45.8357537733191,
-        pitch: 0,
-        bearing: 0,
-        zoom: 12
-      }
-      // mapInstance.jumpTo(savedPosition);
-    }
 
-    const mapInstance = new mapboxgl.Map({
-      container: mapRef,
-      zoom: 14,
-      center: [savedPosition.lat, savedPosition.lng],
-      pitch: savedPosition.pitch,
-      bearing: savedPosition.bearing,
-      // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-      style: {
-        'version': 8,
-        'sources': {
-          'raster-tiles': {
-            'type': 'raster',
-            'tiles': ["https://tile.opentopomap.org/{z}/{x}/{y}.png"],
-            'tileSize': 256,
-            'attribution':
-              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    // Setup the viewgeo
+    // const viewerDiv = document.getElementById('viewerDiv');
+    // const positionOnGlobe = { longitude: 2.351323, latitude: 48.856712, altitude: 25000000 };
+    const placement = {
+      coord: new itowns.Coordinates('EPSG:4326', 3.695885, 43.397379, 0),
+      range: 3000,
+      tilt: 55,
+      heading: 180
+  }
+
+    const view = new itowns.GlobeView(viewerDiv, placement);
+
+    // Add an imagery layer (you can replace this with your own imagery layer)
+    satelliteSource.source = new itowns.WMTSSource(satelliteSource.source);
+    view.addLayer(new itowns.ColorLayer('Ortho', satelliteSource));
+
+    elevationSource.source = new itowns.WMTSSource(elevationSource.source);
+    const elevationLayer = new itowns.ElevationLayer(elevationSource.id, elevationSource);
+    view.addLayer(elevationLayer);
+
+    // Point cloud layer
+    const $3dTilesLayerSetePC = new itowns.C3DTilesLayer('3d-tiles-cloud', {
+      name: 'cloud',
+      sseThreshold: 5,
+      pntsMode: itowns.PNTS_MODE.CLASSIFICATION,
+      pntsShape : itowns.PNTS_SHAPE.CIRCLE,
+      source: new itowns.C3DTilesSource({
+          // url: thermalCloudSource.source.url,
+          url: 'https://raw.githubusercontent.com/iTowns/iTowns2-sample-data/master/pointclouds/pnts-sete-2021-0756_6256/tileset.json',
+      }),
+    }, view);
+
+    function updatePointCloudSize({tileContent}) {
+      tileContent.traverse(function (obj) {
+          if (obj.isPoints) {
+              obj.material.size = 2.0;
           }
-        },
-        'layers': [
-          {
-            'id': 'simple-tiles',
-            'type': 'raster',
-            'source': 'raster-tiles',
-            'minzoom': 0,
-            'maxzoom': 22
-          }
-        ]
-      },
-
-      // style: 'mapbox://styles/mapbox/satellite-streets-v12'
-    });
-    mapInstance.on('style.load', () => {
-      mapInstance.addSource('mapbox-dem', {
-        'type': 'raster-dem',
-        'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-        'tileSize': 512,
-        'maxzoom': 14
       });
-      // add the DEM source as a terrain layer with exaggerated height
-      mapInstance.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.0 });
-      mapInstance.addSource('opentopomap', {
-        "type": 'raster',
-        "tiles": [
-          "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
-        ],
-        "minzoom": 0,
-        "maxzoom": 12
-      });
-    });
+  }
 
-    // Add new custom geoJSON tile server
-    mapInstance.on('load', () => {
-      mapInstance.addSource('otm', {
-        type: 'geojson',
-        data: openTopoMapConfig
-      });
-      mapInstance.addLayer({
-        'id': 'otm',
-        'type': 'fill',
-        'source': 'otm',
-        'layout': {},
-        'paint': {
-          'fill-color': '#088',
-          'fill-opacity': 0.8
-        }
-      });
-      // Capture tile data for debug
-      mapInstance.on('sourcedata', (e) => {
-        console.log('yeah', e)
-      });
-    });
+    $3dTilesLayerSetePC.addEventListener(
+        itowns.C3DTILES_LAYER_EVENTS.ON_TILE_CONTENT_LOADED,
+        updatePointCloudSize,
+    );
 
+    itowns.View.prototype.addLayer.call(view, $3dTilesLayerSetePC);
 
-    mapInstance.on('moveend', () => {
-      // Lol, these are swapped!
-      const { lng, lat } = mapInstance.getCenter();
-      const zoom = mapInstance.getZoom();
-      const bearing = mapInstance.getBearing();
-      const pitch = mapInstance.getPitch();
+    // // Add the 3d-tiles layer
+    // const $3dTilesLayer = new itowns.GeometryLayer('3d-tiles-layer', new THREE.Group(), {
+    //     update: itowns.FeatureProcessing.update,
+    //     convert: itowns.Feature2Mesh.convert(),
+    //     onTileCreated: itowns.$3dTilesDisplayer.createTile,
+    //     source: new itowns.$3dTilesSource({
+    //         url: 'http://your-3d-tiles-server.com/path/to/3d-tiles.json',
+    //     }),
+    // });
 
-      localStorage.setItem('mapPosition', JSON.stringify({ lng: lat, lat: lng, zoom, pitch, bearing }));
-    });
-
+    // view.addLayer($3dTilesLayer);
   })
 
   return (
-    <div ref={mapRef!} class="h-screen w-screen"></div>
-
+    <div ref={viewerDiv!} class="h-screen w-screen"></div>
   );
 };

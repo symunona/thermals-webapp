@@ -20,10 +20,13 @@
   },
   "dependencies": {
     "@types/itowns": "^2.42.2",
-    "@types/three": "^0.164.0",
+    "@types/three": "^0.164.1",
     "buffer": "^6.0.3",
     "itowns": "^2.43.1",
+    "maplibre-gl": "^4.3.2",
     "solid-js": "^1.8.11",
-    "three": "^0.159.0"
+    "three": "^0.159.0",
+    "three-gltf-loader": "^1.111.0",
+    "three-js": "^79.0.0"
   }
 }

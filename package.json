@@ -19,9 +19,11 @@
     "vite-plugin-solid": "^2.8.2"
   },
   "dependencies": {
+    "@loaders.gl/las": "^4.2.2",
     "@types/itowns": "^2.42.2",
     "@types/three": "^0.164.1",
     "buffer": "^6.0.3",
+    "deck.gl": "^9.0.17",
     "itowns": "^2.43.1",
     "maplibre-gl": "^4.3.2",
     "solid-js": "^1.8.11",

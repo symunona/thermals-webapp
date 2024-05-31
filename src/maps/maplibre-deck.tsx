@@ -4,10 +4,9 @@ import { loadLastPosition, savePosition } from '../utils.ts/remember-position';
 import { createFlightPaths, createLineLayer } from '../utils.ts/lines2';
 // import styles of maplibre-gl
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { Deck, ScatterplotLayer } from 'deck.gl';
 import {MapboxOverlay} from '@deck.gl/mapbox';
 import { Map } from 'maplibre-gl';
-import { ExampleLayer, PointCloudLayerTest } from './deck-points';
+import { PointCloudLayerTest } from './deck-points';
 
 const MAP_TILER_TOKEN = import.meta.env.VITE_MAP_TILER_ACCESS_TOKEN
 
@@ -74,37 +73,21 @@ export const MapLibreDeck: Component = () => {
             setMap(mapInstance)
 
             const layer = await PointCloudLayerTest()
-
             const overlay = new MapboxOverlay({
                 layers: [layer],
             });
             /* @ts-ignore */
             mapInstance.addControl(overlay);
-
         })
 
 
         mapInstance.resize();
 
-
         mapInstance.on("style.load", async () => {
             console.log('style loaded')
-            // mapInstance.addLayer(customLayer);
-            model = true
-
-            try {
-                const line = await createFlightPaths()
-                const lineLayer = createLineLayer(line)
-                /* @ts-ignore */
-                await mapInstance.addLayer(lineLayer);
-            } catch (e) {
-                console.error(e)
-            }
-            console.log('added')
         });
-        let model;
         mapInstance.on("styledata", async () => {
-            console.log('style loaded x')
+            console.log('styledata x')
             // mapInstance.addLayer(customLayer);
         });
 

@@ -19,6 +19,7 @@
     "vite-plugin-solid": "^2.8.2"
   },
   "dependencies": {
+    "@deck.gl/mapbox": "^9.0.17",
     "@loaders.gl/las": "^4.2.2",
     "@types/itowns": "^2.42.2",
     "@types/three": "^0.164.1",

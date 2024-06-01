@@ -71,13 +71,6 @@ export const MapLibreDeck: Component = () => {
             console.log('e!')
             mapInstance.resize();
             setMap(mapInstance)
-
-            const layer = await PointCloudLayerTest()
-            const overlay = new MapboxOverlay({
-                layers: [layer],
-            });
-            /* @ts-ignore */
-            mapInstance.addControl(overlay);
         })
 
 
@@ -85,6 +78,12 @@ export const MapLibreDeck: Component = () => {
 
         mapInstance.on("style.load", async () => {
             console.log('style loaded')
+            const layer = await PointCloudLayerTest()
+            const overlay = new MapboxOverlay({
+                layers: [layer],
+            });
+            /* @ts-ignore */
+            mapInstance.addControl(overlay);
         });
         mapInstance.on("styledata", async () => {
             console.log('styledata x')

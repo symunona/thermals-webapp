@@ -7,9 +7,11 @@ export function PointCloudLayerTest() {
   return new PointCloudLayer({
     // data: "/annecy-1.las",
     // data: "/visp-1.las",
-    data: "/visp-middle-thermals.las",
+    // data: "/visp-middle-thermals.las",
+    data: "/tenerife.las",
     loaders: [LASLoader],
-    opacity: 0.2,
+    opacity: 0.3,
+
     getColor: d => {
         console.warn(d);
         debugger;
@@ -17,7 +19,7 @@ export function PointCloudLayerTest() {
     },
     // getNormal: d => d.normal,
     // getPosition: d => d.position,
-    pointSize: 1,
+    pointSize: 3,
   });
 }
 

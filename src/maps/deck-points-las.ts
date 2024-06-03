@@ -3,7 +3,7 @@ import { LASLoader } from "@loaders.gl/las";
 import { Popup } from "maplibre-gl";
 
 
-export function PointCloudLayerTest() {
+export function PointCloudLayerLas() {
   return new PointCloudLayer({
     // data: "/annecy-1.las",
     // data: "/visp-1.las",
@@ -19,7 +19,8 @@ export function PointCloudLayerTest() {
     },
     // getNormal: d => d.normal,
     // getPosition: d => d.position,
-    pointSize: 3,
+    pointSize: 10,
+    sizeUnits: "meters",
   });
 }
 

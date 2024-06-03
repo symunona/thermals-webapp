@@ -6,7 +6,8 @@ import { createFlightPaths, createLineLayer } from '../utils.ts/lines2';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import {MapboxOverlay} from '@deck.gl/mapbox';
 import { Map } from 'maplibre-gl';
-import { PointCloudLayerTest } from './deck-points';
+import { PointCloudLayerLas } from './deck-points-las';
+import { deck3dTilesLayer } from './deck-3d-vector-tiles';
 
 const MAP_TILER_TOKEN = import.meta.env.VITE_MAP_TILER_ACCESS_TOKEN
 
@@ -78,10 +79,13 @@ export const MapLibreDeck: Component = () => {
 
         mapInstance.on("style.load", async () => {
             console.log('style loaded')
-            const layer = await PointCloudLayerTest()
+            const layer = await deck3dTilesLayer()
             const overlay = new MapboxOverlay({
                 layers: [layer],
             });
+
+            console.log(layer)
+
             /* @ts-ignore */
             mapInstance.addControl(overlay);
         });
@@ -95,7 +99,6 @@ export const MapLibreDeck: Component = () => {
             const coordinates = e.lngLat;
             console.log('You clicked at ' + coordinates.lng + ', ' + coordinates.lat);
         });
-
 
         mapInstance.on('moveend', () => savePosition(mapInstance));
     })

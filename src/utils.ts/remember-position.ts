@@ -8,6 +8,7 @@ export function savePosition(mapInstance: maplibregl.Map) {
     const bearing = mapInstance.getBearing();
     const pitch = mapInstance.getPitch();
     const toSave = JSON.stringify({ center: [lng, lat], zoom, pitch, bearing })
+    // console.log('saving', toSave)
     localStorage.setItem('lastPosition', toSave);
     // console.log('saved', toSave)
 }

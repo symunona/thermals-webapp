@@ -8,7 +8,8 @@ export function PointCloudLayerLas() {
     // data: "/annecy-1.las",
     // data: "/visp-1.las",
     // data: "/visp-middle-thermals.las",
-    data: "/tenerife.las",
+    // data: "/tenerife.las",
+    data: "/2411976.las",
     loaders: [LASLoader],
     opacity: 0.3,
 

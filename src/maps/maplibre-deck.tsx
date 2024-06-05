@@ -79,7 +79,8 @@ export const MapLibreDeck: Component = () => {
 
         mapInstance.on("style.load", async () => {
             console.log('style loaded')
-            const layer = await deck3dTilesLayer()
+            // const layer = await deck3dTilesLayer()
+            const layer = await PointCloudLayerLas()
             const overlay = new MapboxOverlay({
                 layers: [layer],
             });

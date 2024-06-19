@@ -7,6 +7,7 @@ declare var Buffer: typeof BufferPolyfill;
 globalThis.Buffer = BufferPolyfill
 
 export default defineConfig({
+  base: '/app/',
   plugins: [
     /*
     Uncomment the following line to enable solid-devtools.

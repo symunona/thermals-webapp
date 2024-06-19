@@ -1,13 +1,12 @@
 
-import { Component, createEffect, createSignal, onCleanup, onMount } from 'solid-js';
+import { Component, createSignal, onCleanup, onMount } from 'solid-js';
 import { loadLastPosition, savePosition } from '../utils.ts/remember-position';
-import { createFlightPaths, createLineLayer } from '../utils.ts/lines2';
-// import styles of maplibre-gl
 import 'maplibre-gl/dist/maplibre-gl.css';
 import {MapboxOverlay} from '@deck.gl/mapbox';
 import { Map } from 'maplibre-gl';
 import { PointCloudLayerLas } from './deck-points-las';
-import { deck3dTilesLayer } from './deck-3d-vector-tiles';
+// import { deck3dTilesLayer } from './deck-3d-vector-tiles';
+import { RegionSelector } from '../sources/point-cloud-provider';
 
 const MAP_TILER_TOKEN = import.meta.env.VITE_MAP_TILER_ACCESS_TOKEN
 
@@ -54,7 +53,6 @@ export const MapLibreDeck: Component = () => {
 
     onMount(() => {
         const lastPosition = loadLastPosition()
-        // console.log(mapContainer)
 
         mapInstance = new Map({
             container: mapContainer, // container id
@@ -69,7 +67,7 @@ export const MapLibreDeck: Component = () => {
         });
 
         mapInstance.once('load', async () => {
-            console.log('e!')
+            console.log('map instance loaded')
             mapInstance.resize();
             setMap(mapInstance)
         })
@@ -91,7 +89,7 @@ export const MapLibreDeck: Component = () => {
             mapInstance.addControl(overlay);
         });
         mapInstance.on("styledata", async () => {
-            console.log('styledata x')
+            console.log('styledata')
             // mapInstance.addLayer(customLayer);
         });
 
@@ -104,13 +102,16 @@ export const MapLibreDeck: Component = () => {
         mapInstance.on('moveend', () => savePosition(mapInstance));
     })
     onCleanup(() => {
-        mapInstance.remove();
+        mapInstance?.remove();
     });
 
     return (
         <div class="h-screen w-screen">
             {/* <div ref={mapContainer} ></div> */}
             {mapContainer}
+            <div>
+                <RegionSelector />
+            </div>
         </div>
     );
 }

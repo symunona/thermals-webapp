@@ -21,7 +21,7 @@ interface Region {
 
 const regionAPI = "http://thermal.localhost/api/";
 const staticRegionApi = "/out/regions/";
-const EXTENSION = ".las";
+const EXTENSION = ".laz";
 
 export function RegionSelector({ map }: { map: Map }) {
   const [regions, setRegions] = createSignal<Array<Region>>([]);

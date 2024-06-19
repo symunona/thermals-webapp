@@ -3,7 +3,7 @@ import { LASLoader } from "@loaders.gl/las";
 import { Popup } from "maplibre-gl";
 
 
-export function PointCloudLayerLas(url: string) {
+export function PointCloudLayerLas(url?: string) {
   return new PointCloudLayer({
     // data: "/annecy-1.las",
     // data: "/visp-1.las",

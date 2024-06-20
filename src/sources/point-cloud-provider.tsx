@@ -19,7 +19,7 @@ interface Region {
   };
 }
 
-const regionAPI = "http://thermal.localhost/api/";
+const regionAPI = "/api/";
 const staticRegionApi = "/out/regions/";
 const EXTENSION = ".laz";
 

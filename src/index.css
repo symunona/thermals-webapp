@@ -7,18 +7,25 @@
 }
 .mapboxgl-control-container button{ display: inline-block; }
 
-body{
-    background: black; color: green
+.hamburger{
+    position: fixed; top: 10px; right: 10px; z-index: 1000;
+    background-color: white;
+    border: 0; padding: 5px; height: 30px; width: 30px; line-height: 20px; vertical-align: middle;
+    text-align: center;
+    font-size: large;
+    cursor: pointer;
 }
+.hamburger:hover{ background-color: lightgray; }
 
-.region-selector{
+.sidebar{
     position: fixed; top: 10px; right: 10px;
     background: rgba(255,255,255,0.9);
     padding: 10px;
-    z-index: 1000;
+    z-index: 100;
 }
-.region{ padding: 5px }
-.region:hover{ background: rgba(128,255,255,1); }
+.menu-item{ padding: 5px; cursor: pointer; }
+.menu-item:hover{ background: rgba(128,255,255,1); }
+.menu-item.loaded{ background: rgba(0,255,0,0.5); }
 
 .indent{ margin-left: 20px; }
 

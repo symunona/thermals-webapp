@@ -12,17 +12,12 @@ export function PointCloudLayerLas(url?: string) {
     data: url || "/engelberg.las",
     // data: "/2411976.las",
     loaders: [LASLoader],
-    opacity: 0.3,
+    opacity: 0.29,
 
-    getColor: d => {
-        console.warn(d);
-        debugger;
-        return d.color
-    },
     // getNormal: d => d.normal,
     // getPosition: d => d.position,
-    pointSize: 10,
-    sizeUnits: "meters",
+    pointSize: 5,
+    // sizeUnits: "meters",
   });
 }
 

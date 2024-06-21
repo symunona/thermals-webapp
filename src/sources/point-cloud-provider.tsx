@@ -29,7 +29,7 @@ export function RegionSelector({ map }: { map: Map }) {
   const [regions, setRegions] = createSignal<Array<Region>>([]);
   const [currentRegion, setCurrentRegion] = createSignal<Region>(null);
   const [isSidebarVisible, setIsSidebarVisible] = createSignal<boolean>(
-    localStorage.getItem("sidebar") === "visible"
+    localStorage.getItem("sidebar") !== "hidden"
   );
 
   (async () => {

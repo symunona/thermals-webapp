@@ -16,8 +16,8 @@ export function PointCloudLayerLas(url?: string) {
 
     // getNormal: d => d.normal,
     // getPosition: d => d.position,
-    pointSize: 5,
-    // sizeUnits: "meters",
+    pointSize: 15,
+    sizeUnits: "meters",
   });
 }
 

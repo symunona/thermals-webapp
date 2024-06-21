@@ -11,6 +11,7 @@ interface Region {
   conditions: any;
   date_generated: number;
   filename: string;
+  zipped_size: number;
 
   overlay: any;
   bounds: {
@@ -21,7 +22,6 @@ interface Region {
   };
 }
 
-const regionAPI = "/api/";
 const staticRegionApi = "/out/regions/";
 const EXTENSION = ".laz";
 
@@ -33,7 +33,7 @@ export function RegionSelector({ map }: { map: Map }) {
   );
 
   (async () => {
-    const regionsFromApi = await (await fetch(regionAPI + "regions")).json();
+    const regionsFromApi = await (await fetch(staticRegionApi + "regions.json")).json();
     const available = (regionsFromApi as Array<Region>).filter(
       (r) => r.size > 0
     );
@@ -102,7 +102,7 @@ export function RegionSelector({ map }: { map: Map }) {
                 {region.name} <button onClick={flyTo(region)}>📌</button>
               </h2>
               <div class="indent">
-                <span>{Math.round(region.size)} MB</span>
+                <span>{Math.round(region.size)} MB (ZIP: {Math.round(region.zipped_size)}MB) </span>
                 <span> {Math.round(region.points / 1000)} K pnts </span>
                 <p>{new Date(region.date_generated * 1000).toISOString()}</p>
               </div>

@@ -83,6 +83,11 @@ export function RegionSelector({ map }: { map: Map }) {
     localStorage.setItem("sidebar", isSidebarVisible() ? "hidden" : "visible");
   };
 
+  const clickRegion = (region: Region) => async () => {
+    setIsSidebarVisible(false)
+    return loadRegion(region)
+  }
+
   return (
     <div>
       <div class="hamburger" onClick={toggleSidebar}>
@@ -96,7 +101,7 @@ export function RegionSelector({ map }: { map: Map }) {
             <div
               class="menu-item"
               classList={{ loaded: currentRegion() === region }}
-              onClick={loadRegion(region)}
+              onClick={clickRegion(region)}
             >
               <h2>
                 {region.name} <button onClick={flyTo(region)}>📌</button>

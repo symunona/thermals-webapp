@@ -37,21 +37,21 @@ export default defineConfig({
     {
       name: 'run-shell-script',
       apply: 'build',
-      buildEnd() {
-        // This does not work for some reason now.
-        exec('ln -s /media/hdd/home/dev/thermal-scraper/out/ /media/hdd/home/dev/thermals-webapp/dist/out',
-        (error, stdout, stderr) => {
-          if (error) {
-            console.warn(`Error: ${error.message}`);
-            return;
-          }
-          if (stderr) {
-            console.warn(`Stderr: ${stderr}`);
-            return;
-          }
-          console.log(`Stdout: ${stdout}`);
-        });
-      },
+      // buildEnd() {
+      //   // This does not work for some reason now.
+      //   exec('ln -s /home/symunona/wwwroot/thermal/out/ /home/symunona/wwwroot/thermal/dist/out',
+      //   (error, stdout, stderr) => {
+      //     if (error) {
+      //       console.warn(`Error: ${error.message}`);
+      //       return;
+      //     }
+      //     if (stderr) {
+      //       console.warn(`Stderr: ${stderr}`);
+      //       return;
+      //     }
+      //     console.log(`Stdout: ${stdout}`);
+      //   });
+      // },
     }
   ],
   define: {

@@ -43,13 +43,7 @@ const AboutModal = () => {
                 the data I already have.
             </p>
             <div>
-                Roadmap:
-                <ul>
-                  <li>Add more data</li>
-                  <li>Add filters: time of day, day of year</li>
-                  <li>Create a proper 3d tile server for dynamic loading</li>
-                  <li>FPS Mode: Real time navigation to where you are</li>
-                </ul>
+                Reach me to bendeguznak et gm....com
             </div>
             <p>
                 Safe flights!<br/>

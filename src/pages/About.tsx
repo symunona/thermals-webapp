@@ -1,5 +1,6 @@
 import { createSignal } from "solid-js";
 import './modals.css'
+import '../../assets/2024-thermals.gif'
 
 export function About(){
     const [showModal, setShowModal] = createSignal(false);
@@ -27,6 +28,9 @@ const AboutModal = () => {
         <div class="modal-content">
             <div>
             <h2>thermal.tmpx.space DEMO</h2>
+            
+            <img style="width: 128px; float: right" src="assets/2024-thermals.gif" alt="thermal" />
+
             <p>
                 It's like <a target="_blank" href="https://thermal.kk7.ch">thermal.kk7.ch</a>,
                 except it's 3D!
@@ -49,6 +53,7 @@ const AboutModal = () => {
                 Safe flights!<br/>
                 the dude
             </p>
+            
             </div>
         </div>
       </div>

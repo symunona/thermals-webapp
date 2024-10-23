@@ -3,6 +3,7 @@ import { PointCloudLayerLas } from "../maps/deck-points-las";
 import { Map } from "maplibre-gl";
 import { MapboxOverlay } from "@deck.gl/mapbox";
 import { About } from "../pages/About";
+import maplibregl from 'maplibre-gl'
 
 interface Region {
   name: string;
@@ -29,7 +30,7 @@ export function RegionSelector({ map }: { map: Map }) {
   const [regions, setRegions] = createSignal<Array<Region>>([]);
   const [currentRegion, setCurrentRegion] = createSignal<Region>(null);
   const [isSidebarVisible, setIsSidebarVisible] = createSignal<boolean>(
-    localStorage.getItem("sidebar") !== "hidden"
+    localStorage.getItem("sidebar") === "hidden"
   );
 
   (async () => {
@@ -41,7 +42,7 @@ export function RegionSelector({ map }: { map: Map }) {
     setRegions(available);
   })();
 
-  const loadRegion = (region: Region) => async () => {
+  const loadRegion = async (region: Region) => {
     const source = staticRegionApi + region.filename + EXTENSION;
 
     if (currentRegion()) {
@@ -54,7 +55,16 @@ export function RegionSelector({ map }: { map: Map }) {
       }
     }
 
-    flyTo(region)();
+    // If current camera position is further than 10km
+    // from the region, fly to, do not fly
+    const centerOfMap = map.getCenter();
+    const centerOfRegion = [(region.bounds.minLong + region.bounds.maxLong) / 2, (region.bounds.minLat + region.bounds.maxLat) / 2];
+    const centerLatLng = new maplibregl.LngLat(centerOfRegion[0], centerOfRegion[1]);
+    map.project(centerOfMap)
+    if (map.getCenter().distanceTo(centerLatLng) > 20000)
+    {
+      flyTo(region)();
+    }
 
     // The first time this loaded:
     region.overlay = new MapboxOverlay({
@@ -84,8 +94,8 @@ export function RegionSelector({ map }: { map: Map }) {
   };
 
   const clickRegion = (region: Region) => async () => {
+    await loadRegion(region)
     setIsSidebarVisible(false)
-    return loadRegion(region)
   }
 
   return (

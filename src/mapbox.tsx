@@ -1,12 +1,14 @@
 function initMap(mapRef) {
     let savedPosition = JSON.parse(localStorage.getItem('mapPosition'));
     if (!savedPosition) {
+        // {"center":[10.65673828125,45.3521452458518],"zoom":5.240193296846552,"pitch":0,"bearing":0}
+        // {"center":[11.129150390625,46.35451083736524],"zoom":5.327384336457695,"pitch":0,"bearing":0}
         savedPosition = {
-            lat: 6.223897393888677,
-            lng: 45.8357537733191,
+            lat: 11.129150390625,
+            lng: 46.35451083736524,
             pitch: 0,
             bearing: 0,
-            zoom: 12
+            zoom: 5
         }
         const mapInstance = new mapboxgl.Map({
             container: mapRef,

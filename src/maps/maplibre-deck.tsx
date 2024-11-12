@@ -49,11 +49,11 @@ export const MapLibreDeck: Component = () => {
 
   onMount(() => {
     const lastPosition = loadLastPosition();
-
+    
     mapInstance = new Map({
       container: mapContainer, // container id
-      center: lastPosition.center || [148.9819, -35.39847], // [8.584442138671875,46.53188239351701], // starting position [lng, lat]
-      zoom: lastPosition.zoom || 18, // starting zoom
+      center: lastPosition.center || [11.129150390625,46.35451083736524], // [8.584442138671875,46.53188239351701], // starting position [lng, lat]
+      zoom: lastPosition.zoom || 5, // starting zoom
       /* @ts-ignore */
       style: mapStyle,
       pitch: lastPosition.pitch || 0,

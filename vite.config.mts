@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
-import { exec } from 'child_process';
 
 // import devtools from 'solid-devtools/vite';
 
@@ -34,25 +33,6 @@ export default defineConfig({
         },
       }
     },
-    {
-      name: 'run-shell-script',
-      apply: 'build',
-      // buildEnd() {
-      //   // This does not work for some reason now.
-      //   exec('ln -s /home/symunona/wwwroot/thermal/out/ /home/symunona/wwwroot/thermal/dist/out',
-      //   (error, stdout, stderr) => {
-      //     if (error) {
-      //       console.warn(`Error: ${error.message}`);
-      //       return;
-      //     }
-      //     if (stderr) {
-      //       console.warn(`Stderr: ${stderr}`);
-      //       return;
-      //     }
-      //     console.log(`Stdout: ${stdout}`);
-      //   });
-      // },
-    }
   ],
   define: {
     global: {},

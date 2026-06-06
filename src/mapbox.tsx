@@ -52,50 +52,6 @@ function initMap(mapRef) {
             mapInstance.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.0 });
         });
 
-        // Add new custom geoJSON tile server
-        mapInstance.on('load', () => {
-
-            // Add a new vector tile source with ID 'mapillary'.
-            mapInstance.addSource('custom-thermal-point-cloud', {
-                'type': 'vector',
-                'tiles': [
-                    'http://localhost:7777/tiles/{z}/{x}/{y}'
-                ],
-                'minzoom': 6,
-                'maxzoom': 14
-            });
-            mapInstance.addLayer(
-                {
-                    'id': 'custom-thermal-point-cloud', // Layer ID
-                    'type': 'circle',
-                    'source': 'custom-thermal-point-cloud', // ID of the tile source created above
-                    // Source has several layers. We visualize the one with name 'sequence'.
-                    'source-layer': 'sequence',
-                    'layout': {
-                        // 'line-cap': 'round',
-                        // 'line-join': 'round'
-                    },
-                    'paint': {
-                        // 'line-opacity': 0.6,
-                        // 'line-color': 'rgb(53, 175, 109)',
-                        // 'line-width': 2
-                        'circle-radius': 10,
-                        'circle-color': '#007cbf',
-                    }
-                },
-                // 'road-label-simple' // Arrange our new layer beneath labels and above roads
-            )
-            console.log('loaded')
-            // Capture tile data for debug
-            mapInstance.on('sourcedata', (e) => {
-                // list the tile data raw geojson
-                console.log(e)
-                if (e.sourceId === 'custom-thermal-point-cloud') {
-                    console.log(e.sourceDataType);
-                    console.log(e.isSourceLoaded)
-                }
-            });
-        });
 
 
         mapInstance.on('moveend', () => {
